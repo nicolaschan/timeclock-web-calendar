@@ -1,0 +1,23 @@
+{
+  "name": "timeclock-web-calendar",
+  "description": "",
+  "main": "index.js",
+  "authors": [
+    "Nicolas Chan"
+  ],
+  "license": "MIT",
+  "moduleType": [],
+  "homepage": "",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "fullcalendar": "~2.6.1",
+    "Materialize": "materialize#~0.97.6"
+  }
+}

@@ -1,0 +1,8 @@
+[2016-04-10 22:34:07.019] [INFO] web-calendar - Starting web calendar by Nicolas Chan
+[2016-04-10 22:34:07.215] [DEBUG] web-calendar - Successfully connected to database
+[2016-04-10 22:34:07.219] [DEBUG] web-calendar - Web server started on http://localhost:8080
+[2016-04-10 22:34:07.220] [INFO] web-calendar - Start complete (0.245s)! Type 'help' for available commands
+[2016-04-10 22:34:09.846] [TRACE] web-calendar - ::1 - Requesting page
+[2016-04-10 22:34:09.854] [DEBUG] web-calendar - Found 2 users
+[2016-04-10 22:34:09.856] [DEBUG] web-calendar - Found 11 readings
+[2016-04-10 22:34:24.834] [INFO] web-calendar - Stopping
