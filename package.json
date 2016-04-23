@@ -7,7 +7,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node index.js"
   },
-  "author": "Nicolas Chan",
+  "author": "Nicolas Chan <me@nicolaschan.com> (https://nicolaschan.com)",
   "license": "MIT",
   "dependencies": {
     "async": "^2.0.0-rc.3",

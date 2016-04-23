@@ -1,7 +1,7 @@
 var convertDate = function(num) {
   var str = num.toString();
   var year = str.substring(0, 4);
-  var month = str.substring(4, 6);
+  var month = parseInt(str.substring(4, 6)) - 1;
   var day = str.substring(6, 8);
   var hour = str.substring(8, 10);
   var min = str.substring(10, 12);
