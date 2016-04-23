@@ -35,7 +35,7 @@ function displayUsers(users, filter) {
     var hours = 0;
 
     var startDate = new Date($('#startDate').val()).getTime();
-    var endDate = new Date($('#endDate').val()).getTime();
+    var endDate = new Date($('#endDate').val()).setDate(new Date($('#endDate').val()).getDate() + 1);
     for (var i in events) {
       if (events[i].userId != id)
         continue;

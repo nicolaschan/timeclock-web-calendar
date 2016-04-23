@@ -5,5 +5,7 @@
     "user": "root",
     "password": "mpass",
     "database": "time"
-  }
+  },
+  "reconnect delay": 5,
+  "favicon": "favicon.png"
 }

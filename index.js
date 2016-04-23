@@ -24,7 +24,8 @@ const app = express();
 const body_parser = require('body-parser');
 
 const mysql = require('mysql');
-const connection = mysql.createConnection(config.database);
+var connection;
+var mysql_connected = false;
 
 var getUsers = function(callback) {
   async.waterfall([(callback) => {
@@ -147,12 +148,20 @@ app.use(body_parser.json());
 app.use(body_parser.urlencoded({
   extended: true
 }));
+app.get('/favicon', (req, res) => {
+  res.sendFile(__dirname + '/' + config.favicon)
+});
 app.get('/main.js', (req, res) => {
   res.sendFile(__dirname + '/main.js');
 });
 app.get('/', (req, res) => {
   logger.trace(`${req.connection.remoteAddress} - Requesting page`);
-  getData((data) => res.render('index', data));
+  if (mysql_connected) {
+    getData((data) => res.render('index', data));
+  } else {
+    res.set('Content-Type', 'text/json');
+    res.send('Error: Could not connect to database');
+  }
 });
 app.post('/api/delete', (req, res) => {
   logger.debug(`${req.connection.remoteAddress} - Attempting delete: ${JSON.stringify(req.body)}`);
@@ -258,15 +267,34 @@ process.on('SIGINT', () => {
   process.exit();
 });
 
-async.series([(callback) => {
-  connection.connect((err, data) => {
-    if (!err) {
-      logger.debug('Successfully connected to database');
-      return callback();
-    }
-    logger.fatal('Could not connect to database');
-    return callback(err);
+var connectToDatabase = function(callback) {
+  logger.debug('Connecting to database...');
+
+  connection = mysql.createConnection(config.database);
+
+  connection.on('error', (err) => {
+    mysql_connected = false;
+    logger.error(`Database lost connection: ${err.message}`);
+    logger.debug(`Attempting to reconnect in ${config['reconnect delay']} seconds...`);
+    setTimeout(connectToDatabase, config['reconnect delay'] * 1000);
   });
+
+  connection.connect((err) => {
+    if (err) {
+      mysql_connected = false;
+      logger.error(`Could not connect to database: ${err.message}`);
+      logger.debug(`Attempting to reconnect in ${config['reconnect delay']} seconds...`);
+      setTimeout(connectToDatabase, config['reconnect delay'] * 1000);
+    } else {
+      mysql_connected = true;
+      logger.debug('Successfully connected to database');
+    }
+  });
+};
+
+async.series([(callback) => {
+  connectToDatabase();
+  return callback();
 }, (callback) => {
   app.listen(config.port, (err) => {
     if (!err) {
